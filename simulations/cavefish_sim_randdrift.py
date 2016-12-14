@@ -1,4 +1,9 @@
 #!/usr/bin/env python2
+"""
+Simulations for Cartwright et al. 2017? BMC Evol Biol
+Simulates populations with drift for u=0.000001, n=1000, varying selection and immigration
+Adds a random chance of connection between surface and cave populations
+"""
 
 import random
 from multiprocessing import Pool
@@ -18,7 +23,7 @@ class qPt:
         self.n = n
         self.u = u
         self.num_gens = num_gens
-        
+
 def countTF(f):   #f is a list of True/False
     count=1
     for i,j in enumerate(f):
@@ -34,7 +39,7 @@ def countTF(f):   #f is a list of True/False
         if i==len(f)-1:
             print cur,count
         cur=j
-        
+
 def qj(q,s):       #this is selection
     n = s*(q**2)+q
     d = s*(q**2)+1
@@ -43,11 +48,11 @@ def qj(q,s):       #this is selection
 def qa(qj,qt,m):    #this is immigration - really qj2
     return float(qj-qj*m+qt*m)
 
-def qa_drift(qa,n):     #this is juv->adult; binomial due to infinite number of juvs   
+def qa_drift(qa,n):     #this is juv->adult; binomial due to infinite number of juvs
     newblind=np.random.binomial(n, qa)
-                      
+
     return float(newblind)/n
-                  
+
 def qpr(qa,u):
     return float(qa+u-u*qa)
 
@@ -60,13 +65,15 @@ def flood_mk(prev_flood):
         flood=prev_flood
     return(flood)
 
+#allow random chance of connection
 def flood_rand():
     f = random.random()
     if f >.9:
         return(bool(1))
     else:
         return(bool(0))
- 
+
+#go through one generation - get allele freq
 def gen(q,s,qt,m,n,u,flood):
     juv=qj(q,s)      #freq after selection
     flood = flood_rand()
@@ -89,35 +96,35 @@ def multi_gen(q,s,qt,m,n,u,num_gens):
             q2 = q
         if i == num_gens*3/4:
             q3 = q
-    
+
     return qPt(q1,q2,q3,q,s,qt,m,n,u,num_gens)
 
 def product_helper(args):
     return multi_gen(*args)
-   
+
 if __name__ == '__main__':
     nreps=100
     s=[]
-    poss_s = [10**i for i in list(np.arange(-6,2.05,0.05))]
-    poss_m = [10**i for i in list(np.arange(-8.0,0.05,0.05))]
-    m=poss_m*nreps*len(poss_s)
+    poss_s = [10**i for i in list(np.arange(-6,2.05,0.05))]  #list of s values
+    poss_m = [10**i for i in list(np.arange(-8.0,0.05,0.05))] #list of m values
+    m=poss_m*nreps*len(poss_s) #repeat values so 1 per sim
     for ps in poss_s:
-        s+=[ps]*nreps*len(poss_m)
+        s+=[ps]*nreps*len(poss_m) #1 value per sim
 
-    q = [0.01]*len(s)
+    q = [0.01]*len(s) #1 item in list per sim - q always = 0.01
     qt = [0.01]*len(s)
     n = [1000]*len(s)
     u = [0.000001]*len(s)
-    num_gens = [10000]*len(s)    
-        
-    p = Pool(int(sys.argv[1])) 
+    num_gens = [10000]*len(s)
+
+    p = Pool(int(sys.argv[1])) #use number of processors input as arg
     # make tuples of args
-    job_args = [(item_q, s[i],qt[i],m[i],n[i],u[i],num_gens[i]) for i, item_q in enumerate(q)] 
+    job_args = [(item_q, s[i],qt[i],m[i],n[i],u[i],num_gens[i]) for i, item_q in enumerate(q)]
     # map to pool
     sim = p.map(product_helper, job_args)
 
     outfile = open('drift_rand_sims.csv','w')
-    
+
     for p,v in vars(sim[0]).iteritems():
         outfile.write(str(p)+',')
     outfile.write("\n")
