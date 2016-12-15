@@ -11,20 +11,7 @@ This directory contains `R` and `Python` scripts for finite-population simulatio
 
 ## Data
 
-This directory contains summarized results of the finite-population simulations.
-
-```R
-library(reshape2)
-a <- read.csv("drift_sims_log_connected_u6.csv")
-qq = acast(a,m~s,value.var="q1",mean)
-write.table(qq,"drift-2500.txt")
-qq = acast(a,m~s,value.var="q2",mean)
-write.table(qq,"drift-5000.txt")
-qq = acast(a,m~s,value.var="q3",mean)
-write.table(qq,"drift-7500.txt")
-qq = acast(a,m~s,value.var="q",mean)
-write.table(qq,"drift-10000.txt")
-```
+This directory contains summarized results of the finite-population simulations. 
 
 ### KAlleles
 
@@ -66,6 +53,21 @@ for(kk in c(1,2,4,6,12)) {
 ### n1000
 
 This directory contains summarized results of the single-allele drift simulations with n = 1000. Allele frequencies were recorded after 2500, 5000, 7500, and 10000 generations (when simulations were run for a total of 10000 generations), or after 1,250,000, 2,500,000, 3,500,000, and 5,000,000 generations (when simulations were run for a total of 5,000,000 generations). Each file is named with the number of generations. Files labeled with mk are results from simulations where the connection between the surface and cave populations was intermittant, with the probability of switching between connected and disconnected is 0.1 and is a markov process. The statistics are reported as described above.
+
+The following code was used to generated the summary files from the simulation output.
+
+```R
+library(reshape2)
+a <- read.csv("drift_sims_log_connected_u6.csv")
+qq = acast(a,m~s,value.var="q1",mean)
+write.table(qq,"drift-2500.txt")
+qq = acast(a,m~s,value.var="q2",mean)
+write.table(qq,"drift-5000.txt")
+qq = acast(a,m~s,value.var="q3",mean)
+write.table(qq,"drift-7500.txt")
+qq = acast(a,m~s,value.var="q",mean)
+write.table(qq,"drift-10000.txt")
+```
 
 ### n100
 
