@@ -1,6 +1,8 @@
 # Cavefish2017
 Scripts and data from "The Importance of Selection in the Evolution of Blindness in Cavefish"
 
+[![DOI](https://zenodo.org/badge/76288103.svg)](https://zenodo.org/badge/latestdoi/76288103)
+
 ## Cavefish.nb
 
 Mathematica notebook verifying the analysis of our deterministic model.
