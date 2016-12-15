@@ -1,6 +1,10 @@
 # Cavefish2017
 Scripts and data from "The Importance of Selection in the Evolution of Blindness in Cavefish"
 
+## Cavefish.nb
+
+Mathematica notebook verifying the analysis of our deterministic model.
+
 ## Figures
 
 This directory contains `R` scripts used to analyze the model in the paper and create descriptive figures.
