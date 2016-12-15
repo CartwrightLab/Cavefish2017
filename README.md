@@ -28,7 +28,7 @@ write.table(qq,"drift-10000.txt")
 
 ### KAlleles
 
-This directory contains summarized results of the k-allele simulations after 10,000 generates.
+This directory contains summarized results of the k-allele simulations after 10,000 generations.
 The following statistics are reported:
 
  * q: average cave-adaptive allele frequency
@@ -62,3 +62,11 @@ for(kk in c(1,2,4,6,12)) {
 	}
 }
 ```
+
+### n1000
+
+This directory contains summarized results of the single-allele drift simulations with n = 1000. Allele frequencies were recorded after 2500, 5000, 7500, and 10000 generations (when simulations were run for a total of 10000 generations), or after 1,250,000, 2,500,000, 3,500,000, and 5,000,000 generations (when simulations were run for a total of 5,000,000 generations). Each file is named with the number of generations. Files labeled with mk are results from simulations where the connection between the surface and cave populations was intermittant, with the probability of switching between connected and disconnected is 0.1 and is a markov process. The statistics are reported as described above.
+
+### n100
+
+This directory contains summarized results of the single-allele drift simulations as described above, but with n = 100.
